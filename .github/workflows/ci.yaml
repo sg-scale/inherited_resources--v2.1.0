@@ -27,7 +27,7 @@ jobs:
           - ruby: "3.1"
             rails: rails_80
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Configure bundler (default)
         run: |
           echo "BUNDLE_GEMFILE=Gemfile" >> "$GITHUB_ENV"
@@ -46,7 +46,7 @@ jobs:
         run: |
           bundle exec rake test TESTOPTS="--verbose"
           mv coverage/coverage.xml coverage/coverage-ruby-${{ matrix.ruby }}-${{ matrix.rails }}.xml
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: coverage-ruby-${{ matrix.ruby }}-${{ matrix.rails }}
           path: coverage
@@ -58,13 +58,13 @@ jobs:
     needs:
       - test
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
         with:
           pattern: coverage-ruby-*
           path: coverage
           merge-multiple: true
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: coverage
